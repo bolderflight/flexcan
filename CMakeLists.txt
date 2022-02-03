@@ -4,14 +4,14 @@ if (DEFINED MCU)
   FetchContent_Declare(
     mcu_support
     GIT_REPOSITORY https://github.com/bolderflight/mcu-support.git
-    GIT_TAG v1.0.1
+    GIT_TAG v1.0.0
   )
   FetchContent_MakeAvailable(mcu_support)
   # Setting up the toolchain
   set(CMAKE_TOOLCHAIN_FILE "${mcu_support_SOURCE_DIR}/cmake/cortex.cmake")
   # Project information
   project(FlexCan
-    VERSION 1.0.0
+    VERSION 1.0.2
     DESCRIPTION "FlexCAN driver"
     LANGUAGES CXX
   )
@@ -27,6 +27,7 @@ if (DEFINED MCU)
   FetchContent_MakeAvailable(core)
   # Add the library target
   add_library(flexcan
+    src/flexcan.h
     src/circular_buffer.h
     src/FlexCAN_T4.h
     src/FlexCAN_T4.tpp
