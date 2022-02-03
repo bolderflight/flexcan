@@ -37,7 +37,7 @@ void irq(const CAN_message_t &ref) {
   Serial.println(ref.id);
 }
 
-int main() {
+void setup() {
   Serial.begin(115200);
   while (!Serial) {}
   Serial.println("STARTING TEST");
@@ -69,5 +69,6 @@ int main() {
     tx_msg.seq = 1;
     can0.write(tx_msg);
   }
-  while (1) {}
 }
+
+void loop() {}

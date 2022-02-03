@@ -9,7 +9,7 @@ This is a mirror of [FlexCAN_T4](https://github.com/tonton81/FlexCAN_T4), which 
 Simply clone or download and extract the zipped library into your Arduino/libraries folder. The library is added as:
 
 ```C++
-#include "FlexCAN_T4.h"
+#include "flexcan.h"
 ```
 
 Examples are located in *examples/arduino*.
@@ -18,7 +18,7 @@ Examples are located in *examples/arduino*.
 CMake is used to build this library, which is exported as a library target called *flexcan*. The header is added as:
 
 ```C++
-#include "FlexCAN_T4.h"
+#include "flexcan.h"
 ```
 
 The library can be also be compiled stand-alone using the CMake idiom of creating a *build* directory and then, from within that directory issuing:
