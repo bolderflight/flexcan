@@ -1369,9 +1369,16 @@ FCTP_FUNC void FCTP_OPT::printErrors(const CAN_error_t &error) {
   if ( error.CRC_ERR ) Serial.print(", CRC_ERR");
   if ( error.FRM_ERR ) Serial.print(", FRM_ERR");
   if ( error.STF_ERR ) Serial.print(", STF_ERR");
-  if ( error.RX_WRN ) Serial.printf(", RX_WRN: %d", error.RX_ERR_COUNTER);
-  if ( error.TX_WRN ) Serial.printf(", TX_WRN: %d", error.TX_ERR_COUNTER);
-  Serial.printf(", FLT_CONF: %s\n", (char*)error.FLT_CONF);
+  if ( error.RX_WRN ) {
+    Serial.print(", RX_WRN: ");
+    Serial.print(error.RX_ERR_COUNTER);
+  }
+  if ( error.TX_WRN ) {
+    Serial.print(", TX_WRN: ");
+    Serial.print(error.TX_ERR_COUNTER);
+  } 
+  Serial.print(", FLT_CONF: ");
+  Serial.println((char*)error.FLT_CONF);
 }
 
 FCTP_FUNC void FCTP_OPT::enableDMA(bool state) { /* only CAN3 supports this on 1062, untested */
