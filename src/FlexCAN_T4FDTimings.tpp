@@ -62,31 +62,31 @@ FCTPFD_FUNC bool FCTPFD_OPT::setBaudRate(CANFD_timings_t config, uint8_t nominal
                 results[result - 1][7] = rjw;
                 results[result - 1][8] = (error <= error1) ? error : error1;
                 results[result - 1][9] = smp;
-                if ( advanced ) Serial.print("      Prescaler   Sclk(MHz)   Tq(ns)   NBT(#Tq)   Propseg(#Tq)   Pseg1(#Tq)   Pseg2(#Tq)   RJW(#Tq)   ?f(%)   Sample Point(%)     CBT Register\n");
-                if ( advanced ) Serial.printf("  %2u)", result);
-                if ( advanced ) Serial.printf("      %4u", prescaler);
-                if ( advanced ) Serial.printf("     %6.2f", sclk);
-                if ( advanced ) Serial.printf("   %7.2f", tq);
-                if ( advanced ) Serial.printf("     %2u", (uint32_t)nbt);
-                if ( advanced ) Serial.printf("          %2u", (uint32_t)propseg);
-                if ( advanced ) Serial.printf("             %2u", (uint32_t)pseg_1);
-                if ( advanced ) Serial.printf("            %2u", (uint32_t)pseg_2);
-                if ( advanced ) Serial.printf("          %2u", (uint32_t)rjw);
-                if ( advanced ) Serial.printf("    %6.2f", ((error <= error1) ? error : error1));
-                if ( advanced ) Serial.printf("       %6.2f", smp);
+                // if ( advanced ) Serial.print("      Prescaler   Sclk(MHz)   Tq(ns)   NBT(#Tq)   Propseg(#Tq)   Pseg1(#Tq)   Pseg2(#Tq)   RJW(#Tq)   ?f(%)   Sample Point(%)     CBT Register\n");
+                // if ( advanced ) Serial.printf("  %2u)", result);
+                // if ( advanced ) Serial.printf("      %4u", prescaler);
+                // if ( advanced ) Serial.printf("     %6.2f", sclk);
+                // if ( advanced ) Serial.printf("   %7.2f", tq);
+                // if ( advanced ) Serial.printf("     %2u", (uint32_t)nbt);
+                // if ( advanced ) Serial.printf("          %2u", (uint32_t)propseg);
+                // if ( advanced ) Serial.printf("             %2u", (uint32_t)pseg_1);
+                // if ( advanced ) Serial.printf("            %2u", (uint32_t)pseg_2);
+                // if ( advanced ) Serial.printf("          %2u", (uint32_t)rjw);
+                // if ( advanced ) Serial.printf("    %6.2f", ((error <= error1) ? error : error1));
+                // if ( advanced ) Serial.printf("       %6.2f", smp);
                 uint32_t cbt = ((uint32_t)(results[result - 1][4] - 1) << 10); // EPROPSEG
                 cbt |= ((uint32_t)(results[result - 1][6] - 1) << 0); // EPSEG2
                 cbt |= ((uint32_t)(results[result - 1][5] - 1) << 5); // EPSEG1
                 cbt |= ((uint32_t)(results[result - 1][7] - 1) << 16); // ERJW
                 cbt |= ((uint32_t)(results[result - 1][0] - 1) << 21); // EPRESDIV
                 cbt |= (1UL << 31); // BTF /* use CBT register instead of CTRL1 for FD */
-                if ( advanced ) Serial.printf("            0x%8.08X",cbt);
+                // if ( advanced ) Serial.printf("            0x%8.08X",cbt);
 
-                if ( advanced ) Serial.printf("\n\t%8s%s%.2f%s%u%s%.2f%s", "", "*** Arbitration phase bit time = ", (results[result - 1][2] * results[result - 1][3] / 1000), "us (", (int)results[result - 1][3], "Tq, Tq=", results[result - 1][2], ")\n");
-                if ( advanced ) Serial.printf("\t%8s%s%.2f%s", "", "a) Sync: ", results[result - 1][2], "ns\t");
-                if ( advanced ) Serial.printf("%8s%s%.2f%s", "", "b) Propseg: ", results[result - 1][2] * results[result - 1][4], "ns\t");
-                if ( advanced ) Serial.printf("%8s%s%.2f%s", "", "c) Pseg1: ", results[result - 1][2] * results[result - 1][5], "ns\t");
-                if ( advanced ) Serial.printf("%8s%s%.2f%s", "", "d) Pseg2: ", results[result - 1][2] * results[result - 1][6], "ns\n");
+                // if ( advanced ) Serial.printf("\n\t%8s%s%.2f%s%u%s%.2f%s", "", "*** Arbitration phase bit time = ", (results[result - 1][2] * results[result - 1][3] / 1000), "us (", (int)results[result - 1][3], "Tq, Tq=", results[result - 1][2], ")\n");
+                // if ( advanced ) Serial.printf("\t%8s%s%.2f%s", "", "a) Sync: ", results[result - 1][2], "ns\t");
+                // if ( advanced ) Serial.printf("%8s%s%.2f%s", "", "b) Propseg: ", results[result - 1][2] * results[result - 1][4], "ns\t");
+                // if ( advanced ) Serial.printf("%8s%s%.2f%s", "", "c) Pseg1: ", results[result - 1][2] * results[result - 1][5], "ns\t");
+                // if ( advanced ) Serial.printf("%8s%s%.2f%s", "", "d) Pseg2: ", results[result - 1][2] * results[result - 1][6], "ns\n");
 
                 uint32_t scale = (uint32_t)ceil(results[result - 1][2]);
                 char _sync[(scale*124/1000) + 1] = "";
@@ -108,9 +108,9 @@ FCTPFD_FUNC bool FCTPFD_OPT::setBaudRate(CANFD_timings_t config, uint8_t nominal
                 for ( uint32_t i = 0; i < (scale*149/1200) + 1; i++ ) _pseg2[i] = 'd';
                 _pseg2[(scale*124/1000)] = '\0';
 
-                if ( advanced ) Serial.printf("%9s%s%-s%s%-s%s%-s%s%-s", "[", _sync, "|", _prop, "|", _pseg1, "|", _pseg2, "]\n");
-                if ( advanced ) Serial.printf("%8s%-s%-s%-s%-s%-s%-s", "", "|________________________", "|________________________", "|________________________", "|________________________", "|________________________", "|________________________|");
-                if ( advanced ) Serial.printf("\n%8s%u%*s%u%*s%u%*s%u%*s%u%*s%u%*s%u%s", "", 0, 23, "", 200, 22, "", 400, 22, "", 600, 22, "", 800, 22, "", 1000, 22, "", 1200, "(ns)\n\n\n");
+                // if ( advanced ) Serial.printf("%9s%s%-s%s%-s%s%-s%s%-s", "[", _sync, "|", _prop, "|", _pseg1, "|", _pseg2, "]\n");
+                // if ( advanced ) Serial.printf("%8s%-s%-s%-s%-s%-s%-s", "", "|________________________", "|________________________", "|________________________", "|________________________", "|________________________", "|________________________|");
+                // if ( advanced ) Serial.printf("\n%8s%u%*s%u%*s%u%*s%u%*s%u%*s%u%*s%u%s", "", 0, 23, "", 200, 22, "", 400, 22, "", 600, 22, "", 800, 22, "", 1000, 22, "", 1200, "(ns)\n\n\n");
               }
               if ( result == result_old ) {
                 pseg = nbt - 1 - propseg;
@@ -131,31 +131,31 @@ FCTPFD_FUNC bool FCTPFD_OPT::setBaudRate(CANFD_timings_t config, uint8_t nominal
                   results[result - 1][7] = 1;
                   results[result - 1][8] = (error <= error1) ? error : error1;
                   results[result - 1][9] = smp;
-                  if ( advanced ) Serial.print("      Prescaler   Sclk(MHz)   Tq(ns)   NBT(#Tq)   Propseg(#Tq)   Pseg1(#Tq)   Pseg2(#Tq)   RJW(#Tq)   ?f(%)   Sample Point(%)     CBT Register\n");
-                  if ( advanced ) Serial.printf("  %2u)", result);
-                  if ( advanced ) Serial.printf("      %4u", prescaler);
-                  if ( advanced ) Serial.printf("     %6.2f", sclk);
-                  if ( advanced ) Serial.printf("   %7.2f", tq);
-                  if ( advanced ) Serial.printf("     %2u", (uint32_t)nbt);
-                  if ( advanced ) Serial.printf("          %2u", (uint32_t)propseg);
-                  if ( advanced ) Serial.printf("             %2u", (uint32_t)1);
-                  if ( advanced ) Serial.printf("            %2u", (uint32_t)2);
-                  if ( advanced ) Serial.printf("          %2u", (uint32_t)1);
-                  if ( advanced ) Serial.printf("    %6.2f", ((error <= error1) ? error : error1));
-                  if ( advanced ) Serial.printf("       %6.2f", smp);
+                  // if ( advanced ) Serial.print("      Prescaler   Sclk(MHz)   Tq(ns)   NBT(#Tq)   Propseg(#Tq)   Pseg1(#Tq)   Pseg2(#Tq)   RJW(#Tq)   ?f(%)   Sample Point(%)     CBT Register\n");
+                  // if ( advanced ) Serial.printf("  %2u)", result);
+                  // if ( advanced ) Serial.printf("      %4u", prescaler);
+                  // if ( advanced ) Serial.printf("     %6.2f", sclk);
+                  // if ( advanced ) Serial.printf("   %7.2f", tq);
+                  // if ( advanced ) Serial.printf("     %2u", (uint32_t)nbt);
+                  // if ( advanced ) Serial.printf("          %2u", (uint32_t)propseg);
+                  // if ( advanced ) Serial.printf("             %2u", (uint32_t)1);
+                  // if ( advanced ) Serial.printf("            %2u", (uint32_t)2);
+                  // if ( advanced ) Serial.printf("          %2u", (uint32_t)1);
+                  // if ( advanced ) Serial.printf("    %6.2f", ((error <= error1) ? error : error1));
+                  // if ( advanced ) Serial.printf("       %6.2f", smp);
                   uint32_t cbt = ((uint32_t)(results[result - 1][4] - 1) << 10); // EPROPSEG
                   cbt |= ((uint32_t)(results[result - 1][6] - 1) << 0); // EPSEG2
                   cbt |= ((uint32_t)(results[result - 1][5] - 1) << 5); // EPSEG1
                   cbt |= ((uint32_t)(results[result - 1][7] - 1) << 16); // ERJW
                   cbt |= ((uint32_t)(results[result - 1][0] - 1) << 21); // EPRESDIV
                   cbt |= (1UL << 31); // BTF /* use CBT register instead of CTRL1 for FD */
-                  if ( advanced ) Serial.printf("            0x%8.08X",cbt);
+                  // if ( advanced ) Serial.printf("            0x%8.08X",cbt);
 
-                  if ( advanced ) Serial.printf("\n\t%8s%s%.2f%s%u%s%.2f%s", "", "*** Arbitration phase bit time = ", (results[result - 1][2] * results[result - 1][3] / 1000), "us (", (int)results[result - 1][3], "Tq, Tq=", results[result - 1][2], ")\n");
-                  if ( advanced ) Serial.printf("\t%8s%s%.2f%s", "", "a) Sync: ", results[result - 1][2], "ns\t");
-                  if ( advanced ) Serial.printf("%8s%s%.2f%s", "", "b) Propseg: ", results[result - 1][2] * results[result - 1][4], "ns\t");
-                  if ( advanced ) Serial.printf("%8s%s%.2f%s", "", "c) Pseg1: ", results[result - 1][2] * results[result - 1][5], "ns\t");
-                  if ( advanced ) Serial.printf("%8s%s%.2f%s", "", "d) Pseg2: ", results[result - 1][2] * results[result - 1][6], "ns\n");
+                  // if ( advanced ) Serial.printf("\n\t%8s%s%.2f%s%u%s%.2f%s", "", "*** Arbitration phase bit time = ", (results[result - 1][2] * results[result - 1][3] / 1000), "us (", (int)results[result - 1][3], "Tq, Tq=", results[result - 1][2], ")\n");
+                  // if ( advanced ) Serial.printf("\t%8s%s%.2f%s", "", "a) Sync: ", results[result - 1][2], "ns\t");
+                  // if ( advanced ) Serial.printf("%8s%s%.2f%s", "", "b) Propseg: ", results[result - 1][2] * results[result - 1][4], "ns\t");
+                  // if ( advanced ) Serial.printf("%8s%s%.2f%s", "", "c) Pseg1: ", results[result - 1][2] * results[result - 1][5], "ns\t");
+                  // if ( advanced ) Serial.printf("%8s%s%.2f%s", "", "d) Pseg2: ", results[result - 1][2] * results[result - 1][6], "ns\n");
 
                   uint32_t scale = (uint32_t)ceil(results[result - 1][2]);
                   char _sync[(scale*124/1000) + 1] = "";
@@ -177,9 +177,9 @@ FCTPFD_FUNC bool FCTPFD_OPT::setBaudRate(CANFD_timings_t config, uint8_t nominal
                   for ( uint32_t i = 0; i < (scale*149/1200) + 1; i++ ) _pseg2[i] = 'd';
                   _pseg2[(scale*124/1000)] = '\0';
 
-                  if ( advanced ) Serial.printf("%9s%s%-s%s%-s%s%-s%s%-s", "[", _sync, "|", _prop, "|", _pseg1, "|", _pseg2, "]\n");
-                  if ( advanced ) Serial.printf("%8s%-s%-s%-s%-s%-s%-s", "", "|________________________", "|________________________", "|________________________", "|________________________", "|________________________", "|________________________|");
-                  if ( advanced ) Serial.printf("\n%8s%u%*s%u%*s%u%*s%u%*s%u%*s%u%*s%u%s", "", 0, 23, "", 200, 22, "", 400, 22, "", 600, 22, "", 800, 22, "", 1000, 22, "", 1200, "(ns)\n\n\n");
+                  // if ( advanced ) Serial.printf("%9s%s%-s%s%-s%s%-s%s%-s", "[", _sync, "|", _prop, "|", _pseg1, "|", _pseg2, "]\n");
+                  // if ( advanced ) Serial.printf("%8s%-s%-s%-s%-s%-s%-s", "", "|________________________", "|________________________", "|________________________", "|________________________", "|________________________", "|________________________|");
+                  // if ( advanced ) Serial.printf("\n%8s%u%*s%u%*s%u%*s%u%*s%u%*s%u%*s%u%s", "", 0, 23, "", 200, 22, "", 400, 22, "", 600, 22, "", 800, 22, "", 1000, 22, "", 1200, "(ns)\n\n\n");
                 }
                 if ( pseg > (ipt + 1) && pseg <= (pseg1 * 2) ) {
                   if ( (uint32_t)pseg % 2 != 0 ) propseg++;
@@ -202,31 +202,31 @@ FCTPFD_FUNC bool FCTPFD_OPT::setBaudRate(CANFD_timings_t config, uint8_t nominal
                   results[result - 1][7] = rjw;
                   results[result - 1][8] = (error <= error1) ? error : error1;
                   results[result - 1][9] = smp;
-                  if ( advanced ) Serial.print("      Prescaler   Sclk(MHz)   Tq(ns)   NBT(#Tq)   Propseg(#Tq)   Pseg1(#Tq)   Pseg2(#Tq)   RJW(#Tq)   ?f(%)   Sample Point(%)     CBT Register\n");
-                  if ( advanced ) Serial.printf("  %2u)", result);
-                  if ( advanced ) Serial.printf("      %4u", prescaler);
-                  if ( advanced ) Serial.printf("     %6.2f", sclk);
-                  if ( advanced ) Serial.printf("   %7.2f", tq);
-                  if ( advanced ) Serial.printf("     %2u", (uint32_t)nbt);
-                  if ( advanced ) Serial.printf("          %2u", (uint32_t)propseg);
-                  if ( advanced ) Serial.printf("             %2u", (uint32_t)pseg);
-                  if ( advanced ) Serial.printf("            %2u", (uint32_t)pseg_val);
-                  if ( advanced ) Serial.printf("          %2u", (uint32_t)rjw);
-                  if ( advanced ) Serial.printf("    %6.2f", ((error <= error1) ? error : error1));
-                  if ( advanced ) Serial.printf("       %6.2f", smp);
+                  // if ( advanced ) Serial.print("      Prescaler   Sclk(MHz)   Tq(ns)   NBT(#Tq)   Propseg(#Tq)   Pseg1(#Tq)   Pseg2(#Tq)   RJW(#Tq)   ?f(%)   Sample Point(%)     CBT Register\n");
+                  // if ( advanced ) Serial.printf("  %2u)", result);
+                  // if ( advanced ) Serial.printf("      %4u", prescaler);
+                  // if ( advanced ) Serial.printf("     %6.2f", sclk);
+                  // if ( advanced ) Serial.printf("   %7.2f", tq);
+                  // if ( advanced ) Serial.printf("     %2u", (uint32_t)nbt);
+                  // if ( advanced ) Serial.printf("          %2u", (uint32_t)propseg);
+                  // if ( advanced ) Serial.printf("             %2u", (uint32_t)pseg);
+                  // if ( advanced ) Serial.printf("            %2u", (uint32_t)pseg_val);
+                  // if ( advanced ) Serial.printf("          %2u", (uint32_t)rjw);
+                  // if ( advanced ) Serial.printf("    %6.2f", ((error <= error1) ? error : error1));
+                  // if ( advanced ) Serial.printf("       %6.2f", smp);
                   uint32_t cbt = ((uint32_t)(results[result - 1][4] - 1) << 10); // EPROPSEG
                   cbt |= ((uint32_t)(results[result - 1][6] - 1) << 0); // EPSEG2
                   cbt |= ((uint32_t)(results[result - 1][5] - 1) << 5); // EPSEG1
                   cbt |= ((uint32_t)(results[result - 1][7] - 1) << 16); // ERJW
                   cbt |= ((uint32_t)(results[result - 1][0] - 1) << 21); // EPRESDIV
                   cbt |= (1UL << 31); // BTF /* use CBT register instead of CTRL1 for FD */
-                  if ( advanced ) Serial.printf("            0x%8.08X",cbt);
+                  // if ( advanced ) Serial.printf("            0x%8.08X",cbt);
 
-                  if ( advanced ) Serial.printf("\n\t%8s%s%.2f%s%u%s%.2f%s", "", "*** Arbitration phase bit time = ", (results[result - 1][2] * results[result - 1][3] / 1000), "us (", (int)results[result - 1][3], "Tq, Tq=", results[result - 1][2], ")\n");
-                  if ( advanced ) Serial.printf("\t%8s%s%.2f%s", "", "a) Sync: ", results[result - 1][2], "ns\t");
-                  if ( advanced ) Serial.printf("%8s%s%.2f%s", "", "b) Propseg: ", results[result - 1][2] * results[result - 1][4], "ns\t");
-                  if ( advanced ) Serial.printf("%8s%s%.2f%s", "", "c) Pseg1: ", results[result - 1][2] * results[result - 1][5], "ns\t");
-                  if ( advanced ) Serial.printf("%8s%s%.2f%s", "", "d) Pseg2: ", results[result - 1][2] * results[result - 1][6], "ns\n");
+                  // if ( advanced ) Serial.printf("\n\t%8s%s%.2f%s%u%s%.2f%s", "", "*** Arbitration phase bit time = ", (results[result - 1][2] * results[result - 1][3] / 1000), "us (", (int)results[result - 1][3], "Tq, Tq=", results[result - 1][2], ")\n");
+                  // if ( advanced ) Serial.printf("\t%8s%s%.2f%s", "", "a) Sync: ", results[result - 1][2], "ns\t");
+                  // if ( advanced ) Serial.printf("%8s%s%.2f%s", "", "b) Propseg: ", results[result - 1][2] * results[result - 1][4], "ns\t");
+                  // if ( advanced ) Serial.printf("%8s%s%.2f%s", "", "c) Pseg1: ", results[result - 1][2] * results[result - 1][5], "ns\t");
+                  // if ( advanced ) Serial.printf("%8s%s%.2f%s", "", "d) Pseg2: ", results[result - 1][2] * results[result - 1][6], "ns\n");
 
                   uint32_t scale = (uint32_t)ceil(results[result - 1][2]);
                   char _sync[(scale*124/1000) + 1] = "";
@@ -248,9 +248,9 @@ FCTPFD_FUNC bool FCTPFD_OPT::setBaudRate(CANFD_timings_t config, uint8_t nominal
                   for ( uint32_t i = 0; i < (scale*149/1200) + 1; i++ ) _pseg2[i] = 'd';
                   _pseg2[(scale*124/1000)] = '\0';
 
-                  if ( advanced ) Serial.printf("%9s%s%-s%s%-s%s%-s%s%-s", "[", _sync, "|", _prop, "|", _pseg1, "|", _pseg2, "]\n");
-                  if ( advanced ) Serial.printf("%8s%-s%-s%-s%-s%-s%-s", "", "|________________________", "|________________________", "|________________________", "|________________________", "|________________________", "|________________________|");
-                  if ( advanced ) Serial.printf("\n%8s%u%*s%u%*s%u%*s%u%*s%u%*s%u%*s%u%s", "", 0, 23, "", 200, 22, "", 400, 22, "", 600, 22, "", 800, 22, "", 1000, 22, "", 1200, "(ns)\n\n\n");
+                  // if ( advanced ) Serial.printf("%9s%s%-s%s%-s%s%-s%s%-s", "[", _sync, "|", _prop, "|", _pseg1, "|", _pseg2, "]\n");
+                  // if ( advanced ) Serial.printf("%8s%-s%-s%-s%-s%-s%-s", "", "|________________________", "|________________________", "|________________________", "|________________________", "|________________________", "|________________________|");
+                  // if ( advanced ) Serial.printf("\n%8s%u%*s%u%*s%u%*s%u%*s%u%*s%u%*s%u%s", "", 0, 23, "", 200, 22, "", 400, 22, "", 600, 22, "", 800, 22, "", 1000, 22, "", 1200, "(ns)\n\n\n");
                 }
               }
               result_old = result;
@@ -355,32 +355,32 @@ FCTPFD_FUNC uint32_t FCTPFD_OPT::setBaudRateFD(CANFD_timings_t config, uint32_t 
               results[result - 1][8] = tdcen;
               results[result - 1][9] = tdcoff_val;
               results[result - 1][10] = smp;
-              if ( advanced ) Serial.print("      Prescaler   Sclk(MHz)   Tq(ns)   NBT(#Tq)   Propseg(#Tq)   Pseg1(#Tq)   Pseg2(#Tq)   RJW(#Tq)   TDCEN   TDCOFF   Sample Point(%)     FDCBT Register\n");
-              if ( advanced ) Serial.printf("  %2u)", result);
-              if ( advanced ) Serial.printf("      %4u", prescaler);
-              if ( advanced ) Serial.printf("     %6.2f", sclk);
-              if ( advanced ) Serial.printf("   %7.2f", tq);
-              if ( advanced ) Serial.printf("     %2u", (uint32_t)nbt);
-              if ( advanced ) Serial.printf("          %2u", (uint32_t)propseg);
-              if ( advanced ) Serial.printf("             %2u", (uint32_t)pseg_1);
-              if ( advanced ) Serial.printf("            %2u", (uint32_t)pseg_2);
-              if ( advanced ) Serial.printf("          %2u", (uint32_t)rjw);
-              if ( advanced ) Serial.printf("         %2u", (uint32_t)tdcen);
-              if ( advanced ) Serial.printf("     %4.2f", tdcoff_val);
-              if ( advanced ) Serial.printf("       %6.2f", smp);
+              // if ( advanced ) Serial.print("      Prescaler   Sclk(MHz)   Tq(ns)   NBT(#Tq)   Propseg(#Tq)   Pseg1(#Tq)   Pseg2(#Tq)   RJW(#Tq)   TDCEN   TDCOFF   Sample Point(%)     FDCBT Register\n");
+              // if ( advanced ) Serial.printf("  %2u)", result);
+              // if ( advanced ) Serial.printf("      %4u", prescaler);
+              // if ( advanced ) Serial.printf("     %6.2f", sclk);
+              // if ( advanced ) Serial.printf("   %7.2f", tq);
+              // if ( advanced ) Serial.printf("     %2u", (uint32_t)nbt);
+              // if ( advanced ) Serial.printf("          %2u", (uint32_t)propseg);
+              // if ( advanced ) Serial.printf("             %2u", (uint32_t)pseg_1);
+              // if ( advanced ) Serial.printf("            %2u", (uint32_t)pseg_2);
+              // if ( advanced ) Serial.printf("          %2u", (uint32_t)rjw);
+              // if ( advanced ) Serial.printf("         %2u", (uint32_t)tdcen);
+              // if ( advanced ) Serial.printf("     %4.2f", tdcoff_val);
+              // if ( advanced ) Serial.printf("       %6.2f", smp);
               uint32_t fdcbt = 0;
               fdcbt |= ((uint32_t)(results[result - 1][6] - 1) << 0); // FPSEG2
               fdcbt |= ((uint32_t)(results[result - 1][5] - 1) << 5); // FPSEG1
               fdcbt |= ((uint32_t)(results[result - 1][4] - 0) << 10); // FPROPSEG
               fdcbt |= ((uint32_t)(results[result - 1][7] - 1) << 16); // FRJW
               fdcbt |= ((uint32_t)(results[result - 1][0] - 1) << 20); // FPRESDIV
-              if ( advanced ) Serial.printf("            0x%8.08X",fdcbt);
+              // if ( advanced ) Serial.printf("            0x%8.08X",fdcbt);
 
-              if ( advanced ) Serial.printf("\n\t%8s%s%.2f%s%u%s%.2f%s", "", "*** Data phase bit time = ", (results[result - 1][2] * results[result - 1][3] / 1000), "us (", (int)results[result - 1][3], "Tq, Tq=", results[result - 1][2], ")\n");
-              if ( advanced ) Serial.printf("\t%8s%s%.2f%s", "", "a) Sync: ", results[result - 1][2], "ns\t");
-              if ( advanced ) Serial.printf("%8s%s%.2f%s", "", "b) Propseg: ", results[result - 1][2] * results[result - 1][4], "ns\t");
-              if ( advanced ) Serial.printf("%8s%s%.2f%s", "", "c) Pseg1: ", results[result - 1][2] * results[result - 1][5], "ns\t");
-              if ( advanced ) Serial.printf("%8s%s%.2f%s", "", "d) Pseg2: ", results[result - 1][2] * results[result - 1][6], "ns\n");
+              // if ( advanced ) Serial.printf("\n\t%8s%s%.2f%s%u%s%.2f%s", "", "*** Data phase bit time = ", (results[result - 1][2] * results[result - 1][3] / 1000), "us (", (int)results[result - 1][3], "Tq, Tq=", results[result - 1][2], ")\n");
+              // if ( advanced ) Serial.printf("\t%8s%s%.2f%s", "", "a) Sync: ", results[result - 1][2], "ns\t");
+              // if ( advanced ) Serial.printf("%8s%s%.2f%s", "", "b) Propseg: ", results[result - 1][2] * results[result - 1][4], "ns\t");
+              // if ( advanced ) Serial.printf("%8s%s%.2f%s", "", "c) Pseg1: ", results[result - 1][2] * results[result - 1][5], "ns\t");
+              // if ( advanced ) Serial.printf("%8s%s%.2f%s", "", "d) Pseg2: ", results[result - 1][2] * results[result - 1][6], "ns\n");
 
               uint32_t scale = (uint32_t)ceil(results[result - 1][2]);
               char _sync[(scale*124/1000) + 1] = "";
@@ -402,9 +402,9 @@ FCTPFD_FUNC uint32_t FCTPFD_OPT::setBaudRateFD(CANFD_timings_t config, uint32_t 
               for ( uint32_t i = 0; i < (scale*149/1200) + 1; i++ ) _pseg2[i] = 'd';
               _pseg2[(scale*124/1000)] = '\0';
 
-              if ( advanced ) Serial.printf("%9s%s%-s%s%-s%s%-s%s%-s", "[", _sync, "|", _prop, "|", _pseg1, "|", _pseg2, "]\n");
-              if ( advanced ) Serial.printf("%8s%-s%-s%-s%-s%-s%-s", "", "|________________________", "|________________________", "|________________________", "|________________________", "|________________________", "|________________________|");
-              if ( advanced ) Serial.printf("\n%8s%u%*s%u%*s%u%*s%u%*s%u%*s%u%*s%u%s", "", 0, 23, "", 200, 22, "", 400, 22, "", 600, 22, "", 800, 22, "", 1000, 22, "", 1200, "(ns)\n\n\n");
+              // if ( advanced ) Serial.printf("%9s%s%-s%s%-s%s%-s%s%-s", "[", _sync, "|", _prop, "|", _pseg1, "|", _pseg2, "]\n");
+              // if ( advanced ) Serial.printf("%8s%-s%-s%-s%-s%-s%-s", "", "|________________________", "|________________________", "|________________________", "|________________________", "|________________________", "|________________________|");
+              // if ( advanced ) Serial.printf("\n%8s%u%*s%u%*s%u%*s%u%*s%u%*s%u%*s%u%s", "", 0, 23, "", 200, 22, "", 400, 22, "", 600, 22, "", 800, 22, "", 1000, 22, "", 1200, "(ns)\n\n\n");
             }
             if ( result == result_old ) {
               pseg = nbt - 1 - propseg;
@@ -425,31 +425,31 @@ FCTPFD_FUNC uint32_t FCTPFD_OPT::setBaudRateFD(CANFD_timings_t config, uint32_t 
                 results[result - 1][8] = tdcen;
                 results[result - 1][9] = tdcoff_val;
                 results[result - 1][10] = smp;
-                if ( advanced ) Serial.print("      Prescaler   Sclk(MHz)   Tq(ns)   NBT(#Tq)   Propseg(#Tq)   Pseg1(#Tq)   Pseg2(#Tq)   RJW(#Tq)   TDCEN   TDCOFF   Sample Point(%)     FDCBT Register\n");
-                if ( advanced ) Serial.printf("  %2u)", result);
-                if ( advanced ) Serial.printf("      %4u", prescaler);
-                if ( advanced ) Serial.printf("     %6.2f", sclk);
-                if ( advanced ) Serial.printf("   %7.2f", tq);
-                if ( advanced ) Serial.printf("     %2u", (uint32_t)nbt);
-                if ( advanced ) Serial.printf("          %2u", (uint32_t)propseg);
-                if ( advanced ) Serial.printf("             %2u", (uint32_t)1);
-                if ( advanced ) Serial.printf("            %2u", (uint32_t)2);
-                if ( advanced ) Serial.printf("          %2u", (uint32_t)1);
-                if ( advanced ) Serial.printf("         %2u", (uint32_t)tdcen);
-                if ( advanced ) Serial.printf("     %4.2f", tdcoff_val);
-                if ( advanced ) Serial.printf("       %6.2f", smp);
+                // if ( advanced ) Serial.print("      Prescaler   Sclk(MHz)   Tq(ns)   NBT(#Tq)   Propseg(#Tq)   Pseg1(#Tq)   Pseg2(#Tq)   RJW(#Tq)   TDCEN   TDCOFF   Sample Point(%)     FDCBT Register\n");
+                // if ( advanced ) Serial.printf("  %2u)", result);
+                // if ( advanced ) Serial.printf("      %4u", prescaler);
+                // if ( advanced ) Serial.printf("     %6.2f", sclk);
+                // if ( advanced ) Serial.printf("   %7.2f", tq);
+                // if ( advanced ) Serial.printf("     %2u", (uint32_t)nbt);
+                // if ( advanced ) Serial.printf("          %2u", (uint32_t)propseg);
+                // if ( advanced ) Serial.printf("             %2u", (uint32_t)1);
+                // if ( advanced ) Serial.printf("            %2u", (uint32_t)2);
+                // if ( advanced ) Serial.printf("          %2u", (uint32_t)1);
+                // if ( advanced ) Serial.printf("         %2u", (uint32_t)tdcen);
+                // if ( advanced ) Serial.printf("     %4.2f", tdcoff_val);
+                // if ( advanced ) Serial.printf("       %6.2f", smp);
                 uint32_t fdcbt = 0;
                 fdcbt |= ((uint32_t)(results[result - 1][6] - 1) << 0); // FPSEG2
                 fdcbt |= ((uint32_t)(results[result - 1][5] - 1) << 5); // FPSEG1
                 fdcbt |= ((uint32_t)(results[result - 1][4] - 0) << 10); // FPROPSEG
                 fdcbt |= ((uint32_t)(results[result - 1][7] - 1) << 16); // FRJW
                 fdcbt |= ((uint32_t)(results[result - 1][0] - 1) << 20); // FPRESDIV
-                if ( advanced ) Serial.printf("            0x%8.08X",fdcbt);
-                if ( advanced ) Serial.printf("\n\t%8s%s%.2f%s%u%s%.2f%s", "", "*** Data phase bit time = ", (results[result - 1][2] * results[result - 1][3] / 1000), "us (", (int)results[result - 1][3], "Tq, Tq=", results[result - 1][2], ")\n");
-                if ( advanced ) Serial.printf("\t%8s%s%.2f%s", "", "a) Sync: ", results[result - 1][2], "ns\t");
-                if ( advanced ) Serial.printf("%8s%s%.2f%s", "", "b) Propseg: ", results[result - 1][2] * results[result - 1][4], "ns\t");
-                if ( advanced ) Serial.printf("%8s%s%.2f%s", "", "c) Pseg1: ", results[result - 1][2] * results[result - 1][5], "ns\t");
-                if ( advanced ) Serial.printf("%8s%s%.2f%s", "", "d) Pseg2: ", results[result - 1][2] * results[result - 1][6], "ns\n");
+                // if ( advanced ) Serial.printf("            0x%8.08X",fdcbt);
+                // if ( advanced ) Serial.printf("\n\t%8s%s%.2f%s%u%s%.2f%s", "", "*** Data phase bit time = ", (results[result - 1][2] * results[result - 1][3] / 1000), "us (", (int)results[result - 1][3], "Tq, Tq=", results[result - 1][2], ")\n");
+                // if ( advanced ) Serial.printf("\t%8s%s%.2f%s", "", "a) Sync: ", results[result - 1][2], "ns\t");
+                // if ( advanced ) Serial.printf("%8s%s%.2f%s", "", "b) Propseg: ", results[result - 1][2] * results[result - 1][4], "ns\t");
+                // if ( advanced ) Serial.printf("%8s%s%.2f%s", "", "c) Pseg1: ", results[result - 1][2] * results[result - 1][5], "ns\t");
+                // if ( advanced ) Serial.printf("%8s%s%.2f%s", "", "d) Pseg2: ", results[result - 1][2] * results[result - 1][6], "ns\n");
 
                 uint32_t scale = (uint32_t)ceil(results[result - 1][2]);
                 char _sync[(scale*124/1000) + 1] = "";
@@ -471,9 +471,9 @@ FCTPFD_FUNC uint32_t FCTPFD_OPT::setBaudRateFD(CANFD_timings_t config, uint32_t 
                 for ( uint32_t i = 0; i < (scale*149/1200) + 1; i++ ) _pseg2[i] = 'd';
                 _pseg2[(scale*124/1000)] = '\0';
 
-                if ( advanced ) Serial.printf("%9s%s%-s%s%-s%s%-s%s%-s", "[", _sync, "|", _prop, "|", _pseg1, "|", _pseg2, "]\n");
-                if ( advanced ) Serial.printf("%8s%-s%-s%-s%-s%-s%-s", "", "|________________________", "|________________________", "|________________________", "|________________________", "|________________________", "|________________________|");
-                if ( advanced ) Serial.printf("\n%8s%u%*s%u%*s%u%*s%u%*s%u%*s%u%*s%u%s", "", 0, 23, "", 200, 22, "", 400, 22, "", 600, 22, "", 800, 22, "", 1000, 22, "", 1200, "(ns)\n\n\n");
+                // if ( advanced ) Serial.printf("%9s%s%-s%s%-s%s%-s%s%-s", "[", _sync, "|", _prop, "|", _pseg1, "|", _pseg2, "]\n");
+                // if ( advanced ) Serial.printf("%8s%-s%-s%-s%-s%-s%-s", "", "|________________________", "|________________________", "|________________________", "|________________________", "|________________________", "|________________________|");
+                // if ( advanced ) Serial.printf("\n%8s%u%*s%u%*s%u%*s%u%*s%u%*s%u%*s%u%s", "", 0, 23, "", 200, 22, "", 400, 22, "", 600, 22, "", 800, 22, "", 1000, 22, "", 1200, "(ns)\n\n\n");
               }
               if ( pseg > (ipt + 1) && pseg <= (pseg1 * 2) ) {
                 if ( (uint32_t)pseg % 2 != 0 ) propseg++;
@@ -495,31 +495,31 @@ FCTPFD_FUNC uint32_t FCTPFD_OPT::setBaudRateFD(CANFD_timings_t config, uint32_t 
                 results[result - 1][8] = tdcen;
                 results[result - 1][9] = tdcoff_val;
                 results[result - 1][10] = smp;
-                if ( advanced ) Serial.print("      Prescaler   Sclk(MHz)   Tq(ns)   NBT(#Tq)   Propseg(#Tq)   Pseg1(#Tq)   Pseg2(#Tq)   RJW(#Tq)   TDCEN   TDCOFF   Sample Point(%)     FDCBT Register\n");
-                if ( advanced ) Serial.printf("  %2u)", result);
-                if ( advanced ) Serial.printf("      %4u", prescaler);
-                if ( advanced ) Serial.printf("     %6.2f", sclk);
-                if ( advanced ) Serial.printf("   %7.2f", tq);
-                if ( advanced ) Serial.printf("     %2u", (uint32_t)nbt);
-                if ( advanced ) Serial.printf("          %2u", (uint32_t)propseg);
-                if ( advanced ) Serial.printf("             %2u", (uint32_t)pseg);
-                if ( advanced ) Serial.printf("            %2u", (uint32_t)pseg);
-                if ( advanced ) Serial.printf("          %2u", (uint32_t)rjw);
-                if ( advanced ) Serial.printf("         %2u", (uint32_t)tdcen);
-                if ( advanced ) Serial.printf("     %4.2f", tdcoff_val);
-                if ( advanced ) Serial.printf("       %6.2f", smp);
+                // if ( advanced ) Serial.print("      Prescaler   Sclk(MHz)   Tq(ns)   NBT(#Tq)   Propseg(#Tq)   Pseg1(#Tq)   Pseg2(#Tq)   RJW(#Tq)   TDCEN   TDCOFF   Sample Point(%)     FDCBT Register\n");
+                // if ( advanced ) Serial.printf("  %2u)", result);
+                // if ( advanced ) Serial.printf("      %4u", prescaler);
+                // if ( advanced ) Serial.printf("     %6.2f", sclk);
+                // if ( advanced ) Serial.printf("   %7.2f", tq);
+                // if ( advanced ) Serial.printf("     %2u", (uint32_t)nbt);
+                // if ( advanced ) Serial.printf("          %2u", (uint32_t)propseg);
+                // if ( advanced ) Serial.printf("             %2u", (uint32_t)pseg);
+                // if ( advanced ) Serial.printf("            %2u", (uint32_t)pseg);
+                // if ( advanced ) Serial.printf("          %2u", (uint32_t)rjw);
+                // if ( advanced ) Serial.printf("         %2u", (uint32_t)tdcen);
+                // if ( advanced ) Serial.printf("     %4.2f", tdcoff_val);
+                // if ( advanced ) Serial.printf("       %6.2f", smp);
                 uint32_t fdcbt = 0;
                 fdcbt |= ((uint32_t)(results[result - 1][6] - 1) << 0); // FPSEG2
                 fdcbt |= ((uint32_t)(results[result - 1][5] - 1) << 5); // FPSEG1
                 fdcbt |= ((uint32_t)(results[result - 1][4] - 0) << 10); // FPROPSEG
                 fdcbt |= ((uint32_t)(results[result - 1][7] - 1) << 16); // FRJW
                 fdcbt |= ((uint32_t)(results[result - 1][0] - 1) << 20); // FPRESDIV
-                if ( advanced ) Serial.printf("            0x%8.08X",fdcbt);
-                if ( advanced ) Serial.printf("\n\t%8s%s%.2f%s%u%s%.2f%s", "", "*** Data phase bit time = ", (results[result - 1][2] * results[result - 1][3] / 1000), "us (", (int)results[result - 1][3], "Tq, Tq=", results[result - 1][2], ")\n");
-                if ( advanced ) Serial.printf("\t%8s%s%.2f%s", "", "a) Sync: ", results[result - 1][2], "ns\t");
-                if ( advanced ) Serial.printf("%8s%s%.2f%s", "", "b) Propseg: ", results[result - 1][2] * results[result - 1][4], "ns\t");
-                if ( advanced ) Serial.printf("%8s%s%.2f%s", "", "c) Pseg1: ", results[result - 1][2] * results[result - 1][5], "ns\t");
-                if ( advanced ) Serial.printf("%8s%s%.2f%s", "", "d) Pseg2: ", results[result - 1][2] * results[result - 1][6], "ns\n");
+                // if ( advanced ) Serial.printf("            0x%8.08X",fdcbt);
+                // if ( advanced ) Serial.printf("\n\t%8s%s%.2f%s%u%s%.2f%s", "", "*** Data phase bit time = ", (results[result - 1][2] * results[result - 1][3] / 1000), "us (", (int)results[result - 1][3], "Tq, Tq=", results[result - 1][2], ")\n");
+                // if ( advanced ) Serial.printf("\t%8s%s%.2f%s", "", "a) Sync: ", results[result - 1][2], "ns\t");
+                // if ( advanced ) Serial.printf("%8s%s%.2f%s", "", "b) Propseg: ", results[result - 1][2] * results[result - 1][4], "ns\t");
+                // if ( advanced ) Serial.printf("%8s%s%.2f%s", "", "c) Pseg1: ", results[result - 1][2] * results[result - 1][5], "ns\t");
+                // if ( advanced ) Serial.printf("%8s%s%.2f%s", "", "d) Pseg2: ", results[result - 1][2] * results[result - 1][6], "ns\n");
 
                 uint32_t scale = (uint32_t)ceil(results[result - 1][2]);
                 char _sync[(scale*124/1000) + 1] = "";
@@ -541,9 +541,9 @@ FCTPFD_FUNC uint32_t FCTPFD_OPT::setBaudRateFD(CANFD_timings_t config, uint32_t 
                 for ( uint32_t i = 0; i < (scale*149/1200) + 1; i++ ) _pseg2[i] = 'd';
                 _pseg2[(scale*124/1000)] = '\0';
 
-                if ( advanced ) Serial.printf("%9s%s%-s%s%-s%s%-s%s%-s", "[", _sync, "|", _prop, "|", _pseg1, "|", _pseg2, "]\n");
-                if ( advanced ) Serial.printf("%8s%-s%-s%-s%-s%-s%-s", "", "|________________________", "|________________________", "|________________________", "|________________________", "|________________________", "|________________________|");
-                if ( advanced ) Serial.printf("\n%8s%u%*s%u%*s%u%*s%u%*s%u%*s%u%*s%u%s\n\n\n\n", "", 0, 23, "", 200, 22, "", 400, 22, "", 600, 22, "", 800, 22, "", 1000, 22, "", 1200, "(ns)\n\n\n");
+                // if ( advanced ) Serial.printf("%9s%s%-s%s%-s%s%-s%s%-s", "[", _sync, "|", _prop, "|", _pseg1, "|", _pseg2, "]\n");
+                // if ( advanced ) Serial.printf("%8s%-s%-s%-s%-s%-s%-s", "", "|________________________", "|________________________", "|________________________", "|________________________", "|________________________", "|________________________|");
+                // if ( advanced ) Serial.printf("\n%8s%u%*s%u%*s%u%*s%u%*s%u%*s%u%*s%u%s\n\n\n\n", "", 0, 23, "", 200, 22, "", 400, 22, "", 600, 22, "", 800, 22, "", 1000, 22, "", 1200, "(ns)\n\n\n");
               }
             }
             result_old = result;

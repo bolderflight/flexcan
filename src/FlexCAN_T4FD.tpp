@@ -764,68 +764,68 @@ FCTPFD_FUNC bool FCTPFD_OPT::setMBFilter(FLEXCAN_MAILBOX mb_num, uint32_t id1, u
 }
 
 FCTPFD_FUNC void FCTPFD_OPT::mailboxStatus() {
-  Serial.print("FIFO Disabled\n\tMailboxes:\n");
-  for ( uint8_t i = 0, mbsize = 0; i < max_mailboxes(); i++ ) {
-    volatile uint32_t *mbxAddr = &(*(volatile uint32_t*)(mailbox_offset(i, mbsize)));
-    switch ( FLEXCAN_get_code(mbxAddr[0]) ) {
-      case 0b0000: {
-          Serial.printf("\t\tMB%u%s\n", i, " code: RX_INACTIVE");
-          break;
-        }
-      case 0b0100: {
-          Serial.printf("\t\tMB%u%s%s\n", i, " code: RX_EMPTY",((mbxAddr[0] & FLEXCAN_MB_CS_IDE)?"\t(Extended Frame)":"\t(Standard Frame)"));
-          break;
-        }
-      case 0b0010: {
-          Serial.printf("\t\tMB%u%s\n", i, " code: RX_FULL");
-          break;
-        }
-      case 0b0110: {
-          Serial.printf("\t\tMB%u%s\n", i, " code: RX_OVERRUN");
-          break;
-        }
-      case 0b1010: {
-          Serial.printf("\t\tMB%u%s\n", i, " code: RX_ANSWER");
-          break;
-        }
-      case 0b0001: {
-          Serial.printf("\t\tMB%u%s\n", i, " code: RX_BUSY");
-          break;
-        }
-      case 0b1000: {
-          Serial.printf("\t\tMB%u%s\n", i, " code: TX_INACTIVE");
-          break;
-        }
-      case 0b1001: {
-          Serial.printf("\t\tMB%u%s\n", i, " code: TX_ABORT");
-          break;
-        }
-      case 0b1100: {
-          Serial.printf("\t\tMB%u%s", i, " code: TX_DATA (Transmitting)");
-          uint32_t extid = (mbxAddr[0] & FLEXCAN_MB_CS_IDE);
-          (extid) ? Serial.print("(Extended Frame)") : Serial.print("(Standard Frame)");
-          uint32_t dataIn = mbxAddr[2];
-          uint32_t id = (FLEXCANb_MBn_ID(_bus, i) & FLEXCAN_MB_ID_EXT_MASK);
-          if (!extid) id >>= FLEXCAN_MB_ID_STD_BIT_NO;
-          Serial.print("(ID: 0x"); Serial.print(id, HEX); Serial.print(")");
-          Serial.print("(Payload: "); Serial.print((uint8_t)(dataIn >> 24), HEX);
-          Serial.print(" "); Serial.print((uint8_t)(dataIn >> 16), HEX);
-          Serial.print(" "); Serial.print((uint8_t)(dataIn >> 8), HEX);
-          Serial.print(" "); Serial.print((uint8_t)dataIn, HEX);
-          dataIn = mbxAddr[3];
-          Serial.print(" "); Serial.print((uint8_t)(dataIn >> 24), HEX);
-          Serial.print(" "); Serial.print((uint8_t)(dataIn >> 16), HEX);
-          Serial.print(" "); Serial.print((uint8_t)(dataIn >> 8), HEX);
-          Serial.print(" "); Serial.print((uint8_t)dataIn, HEX);
-          Serial.println(")");
-          break;
-        }
-      case 0b1110: {
-          Serial.printf("\t\tMB%u%s\n", i, " code: TX_ANSWER");
-          break;
-        }
-    }
-  } // for loop
+  // Serial.print("FIFO Disabled\n\tMailboxes:\n");
+  // for ( uint8_t i = 0, mbsize = 0; i < max_mailboxes(); i++ ) {
+  //   volatile uint32_t *mbxAddr = &(*(volatile uint32_t*)(mailbox_offset(i, mbsize)));
+  //   switch ( FLEXCAN_get_code(mbxAddr[0]) ) {
+  //     case 0b0000: {
+  //         Serial.printf("\t\tMB%u%s\n", i, " code: RX_INACTIVE");
+  //         break;
+  //       }
+  //     case 0b0100: {
+  //         Serial.printf("\t\tMB%u%s%s\n", i, " code: RX_EMPTY",((mbxAddr[0] & FLEXCAN_MB_CS_IDE)?"\t(Extended Frame)":"\t(Standard Frame)"));
+  //         break;
+  //       }
+  //     case 0b0010: {
+  //         Serial.printf("\t\tMB%u%s\n", i, " code: RX_FULL");
+  //         break;
+  //       }
+  //     case 0b0110: {
+  //         Serial.printf("\t\tMB%u%s\n", i, " code: RX_OVERRUN");
+  //         break;
+  //       }
+  //     case 0b1010: {
+  //         Serial.printf("\t\tMB%u%s\n", i, " code: RX_ANSWER");
+  //         break;
+  //       }
+  //     case 0b0001: {
+  //         Serial.printf("\t\tMB%u%s\n", i, " code: RX_BUSY");
+  //         break;
+  //       }
+  //     case 0b1000: {
+  //         Serial.printf("\t\tMB%u%s\n", i, " code: TX_INACTIVE");
+  //         break;
+  //       }
+  //     case 0b1001: {
+  //         Serial.printf("\t\tMB%u%s\n", i, " code: TX_ABORT");
+  //         break;
+  //       }
+  //     case 0b1100: {
+  //         Serial.printf("\t\tMB%u%s", i, " code: TX_DATA (Transmitting)");
+  //         uint32_t extid = (mbxAddr[0] & FLEXCAN_MB_CS_IDE);
+  //         (extid) ? Serial.print("(Extended Frame)") : Serial.print("(Standard Frame)");
+  //         uint32_t dataIn = mbxAddr[2];
+  //         uint32_t id = (FLEXCANb_MBn_ID(_bus, i) & FLEXCAN_MB_ID_EXT_MASK);
+  //         if (!extid) id >>= FLEXCAN_MB_ID_STD_BIT_NO;
+  //         Serial.print("(ID: 0x"); Serial.print(id, HEX); Serial.print(")");
+  //         Serial.print("(Payload: "); Serial.print((uint8_t)(dataIn >> 24), HEX);
+  //         Serial.print(" "); Serial.print((uint8_t)(dataIn >> 16), HEX);
+  //         Serial.print(" "); Serial.print((uint8_t)(dataIn >> 8), HEX);
+  //         Serial.print(" "); Serial.print((uint8_t)dataIn, HEX);
+  //         dataIn = mbxAddr[3];
+  //         Serial.print(" "); Serial.print((uint8_t)(dataIn >> 24), HEX);
+  //         Serial.print(" "); Serial.print((uint8_t)(dataIn >> 16), HEX);
+  //         Serial.print(" "); Serial.print((uint8_t)(dataIn >> 8), HEX);
+  //         Serial.print(" "); Serial.print((uint8_t)dataIn, HEX);
+  //         Serial.println(")");
+  //         break;
+  //       }
+  //     case 0b1110: {
+  //         Serial.printf("\t\tMB%u%s\n", i, " code: TX_ANSWER");
+  //         break;
+  //       }
+  //   }
+  // } // for loop
 }
 
 extern void __attribute__((weak)) ext_outputFD1(const CANFD_message_t &msg);

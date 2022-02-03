@@ -4,7 +4,7 @@ if (DEFINED MCU)
   FetchContent_Declare(
     mcu_support
     GIT_REPOSITORY https://github.com/bolderflight/mcu-support.git
-    GIT_TAG v1.0.0
+    GIT_TAG v1.0.1
   )
   FetchContent_MakeAvailable(mcu_support)
   # Setting up the toolchain
