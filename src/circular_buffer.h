@@ -77,7 +77,7 @@ class Circular_Buffer {
         T min();
         T max();
         T mean() { return average(); }
-        T max_size() { return multi; }
+        uint16_t max_size() { return multi; }
         T pop_back(T *buffer, uint16_t length);
         T* peek_front() { return front(); } 
         T* peek_back() { return back(); } 

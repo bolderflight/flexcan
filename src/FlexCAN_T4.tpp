@@ -1005,10 +1005,13 @@ FCTP_FUNC int FCTP_OPT::readMB(CAN_message_t &msg) {
   return 0; /* no messages available */
 }
 
-FCTP_FUNC void FCTP_OPT::struct2queueTx(const CAN_message_t &msg) {
+FCTP_FUNC bool FCTP_OPT::struct2queueTx(const CAN_message_t &msg) {
+  if (FLEXCANb_ESR1(_bus) & 0x20) return -2;
+  if ( txBuffer.size() == txBuffer.capacity() ) return 0; /* no queues available */
   uint8_t buf[sizeof(CAN_message_t)];
   memmove(buf, &msg, sizeof(msg));
   txBuffer.push_back(buf, sizeof(CAN_message_t));
+  return -1; /* transmit entry failed, no mailboxes available, queued */
 }
 
 FCTP_FUNC int FCTP_OPT::write(FLEXCAN_MAILBOX mb_num, const CAN_message_t &msg) {
@@ -1024,8 +1027,7 @@ FCTP_FUNC int FCTP_OPT::write(FLEXCAN_MAILBOX mb_num, const CAN_message_t &msg) 
     else {
       CAN_message_t msg_copy = msg;
       msg_copy.mb = first_tx_mb;
-      struct2queueTx(msg_copy); /* queue if no mailboxes found */
-      return -1; /* transmit entry failed, no mailboxes available, queued */
+      return struct2queueTx(msg_copy); /* queue if no mailboxes found */
     }
   }
   if ( FLEXCAN_get_code(mbxAddr[0]) == FLEXCAN_MB_CODE_TX_INACTIVE ) {
@@ -1034,8 +1036,7 @@ FCTP_FUNC int FCTP_OPT::write(FLEXCAN_MAILBOX mb_num, const CAN_message_t &msg) 
   }
   CAN_message_t msg_copy = msg;
   msg_copy.mb = mb_num;
-  struct2queueTx(msg_copy); /* queue if no mailboxes found */
-  return -1; /* transmit entry failed, no mailboxes available, queued */
+  return struct2queueTx(msg_copy); /* queue if no mailboxes found */
 }
 
 FCTP_FUNC int FCTP_OPT::write(const CAN_message_t &msg) {
@@ -1048,8 +1049,7 @@ FCTP_FUNC int FCTP_OPT::write(const CAN_message_t &msg) {
     else {
       CAN_message_t msg_copy = msg;
       msg_copy.mb = first_tx_mb;
-      struct2queueTx(msg_copy); /* queue if no mailboxes found */
-      return -1; /* transmit entry failed, no mailboxes available, queued */
+      return struct2queueTx(msg_copy); /* queue if no mailboxes found */
     }
   }
   for (uint8_t i = mailboxOffset(); i < FLEXCANb_MAXMB_SIZE(_bus); i++) {
@@ -1060,8 +1060,7 @@ FCTP_FUNC int FCTP_OPT::write(const CAN_message_t &msg) {
   }
   CAN_message_t msg_copy = msg;
   msg_copy.mb = -1;
-  struct2queueTx(msg_copy); /* queue if no mailboxes found */
-  return -1; /* transmit entry failed, no mailboxes available, queued */
+  return struct2queueTx(msg_copy); /* queue if no mailboxes found */
 }
 
 FCTP_FUNC void FCTP_OPT::onReceive(const FLEXCAN_MAILBOX &mb_num, _MB_ptr handler) {
@@ -1369,16 +1368,9 @@ FCTP_FUNC void FCTP_OPT::printErrors(const CAN_error_t &error) {
   if ( error.CRC_ERR ) Serial.print(", CRC_ERR");
   if ( error.FRM_ERR ) Serial.print(", FRM_ERR");
   if ( error.STF_ERR ) Serial.print(", STF_ERR");
-  if ( error.RX_WRN ) {
-    Serial.print(", RX_WRN: ");
-    Serial.print(error.RX_ERR_COUNTER);
-  }
-  if ( error.TX_WRN ) {
-    Serial.print(", TX_WRN: ");
-    Serial.print(error.TX_ERR_COUNTER);
-  } 
-  Serial.print(", FLT_CONF: ");
-  Serial.println((char*)error.FLT_CONF);
+  if ( error.RX_WRN ) Serial.printf(", RX_WRN: %d", error.RX_ERR_COUNTER);
+  if ( error.TX_WRN ) Serial.printf(", TX_WRN: %d", error.TX_ERR_COUNTER);
+  Serial.printf(", FLT_CONF: %s\n", (char*)error.FLT_CONF);
 }
 
 FCTP_FUNC void FCTP_OPT::enableDMA(bool state) { /* only CAN3 supports this on 1062, untested */

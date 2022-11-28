@@ -400,6 +400,7 @@ FCTPFD_CLASS class FlexCAN_T4FD : public FlexCAN_T4_Base {
     void setMBFilterProcessing(FLEXCAN_MAILBOX mb_num, uint32_t filter_id, uint32_t calculated_mask);
 
   private:
+    volatile bool isEventsUsed = 0;
     uint64_t readIFLAG() { return (((uint64_t)FLEXCANb_IFLAG2(_bus) << 32) | FLEXCANb_IFLAG1(_bus)); }
     uint32_t mailbox_offset(uint8_t mailbox, uint8_t &maxsize); 
     void writeTxMailbox(uint8_t mb_num, const CANFD_message_t &msg);
@@ -505,7 +506,7 @@ FCTP_CLASS class FlexCAN_T4 : public FlexCAN_T4_Base {
     bool setFIFOFilter(uint8_t filter, uint32_t id1, const FLEXCAN_IDE &ide1, const FLEXCAN_IDE &remote1, uint32_t id2, const FLEXCAN_IDE &ide2, const FLEXCAN_IDE &remote2); /* TableB 2 ID / filter */
     bool setFIFOFilter(uint8_t filter, uint32_t id1, uint32_t id2, const FLEXCAN_IDE &ide1, const FLEXCAN_IDE &remote1, uint32_t id3, uint32_t id4, const FLEXCAN_IDE &ide2, const FLEXCAN_IDE &remote2); /* TableB 4 minimum ID / filter */
     bool setFIFOFilterRange(uint8_t filter, uint32_t id1, uint32_t id2, const FLEXCAN_IDE &ide1, const FLEXCAN_IDE &remote1, uint32_t id3, uint32_t id4, const FLEXCAN_IDE &ide2, const FLEXCAN_IDE &remote2); /* TableB dual range based IDs */
-    void struct2queueTx(const CAN_message_t &msg);
+    bool struct2queueTx(const CAN_message_t &msg);
     void struct2queueRx(const CAN_message_t &msg);
 #if defined(__IMXRT1062__)
     void setClock(FLEXCAN_CLOCK clock = CLK_24MHz);
