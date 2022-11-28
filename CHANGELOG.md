@@ -1,5 +1,8 @@
 # Changelog
 
+## v1.1.2
+- Remove printf
+
 ## v1.1.1
 - Bug fix to get CAN-FD interrupt to fire
 

@@ -11,7 +11,7 @@ if (DEFINED MCU)
   set(CMAKE_TOOLCHAIN_FILE "${mcu_support_SOURCE_DIR}/cmake/cortex.cmake")
   # Project information
   project(FlexCan
-    VERSION 1.1.1
+    VERSION 1.1.2
     DESCRIPTION "FlexCAN driver"
     LANGUAGES CXX
   )
